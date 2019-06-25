@@ -2,7 +2,7 @@
 // Please visit https://alexa.design/cookbook for additional examples on implementing slots, dialog management,
 // session persistence, api calls, and more.
 
-//This sample has been modifed for the WAIS 
+//This sample has been modifed for the WAIS tutorial on Alexa Skills
 const Alexa = require('ask-sdk-core');
 
 const LaunchRequestHandler = {
@@ -50,7 +50,15 @@ const IntentReflectorHandler = {
     },
     handle(handlerInput) {
         const intentName = handlerInput.requestEnvelope.request.intent.name;
-        const speechText = `You just triggered the intent ${intentName}`;
+        let speechText = `You just triggered the intent ${intentName}. `;
+        
+        let slots = handlerInput.requestEnvelope.request.intent.slots || {};
+        
+        for (let key in slots) {
+            let slot = slots[key];
+            speechText += `Slot with name ${slot.name} has value ${slot.value}. `
+        }
+        
 
         return handlerInput.responseBuilder
             .speak(speechText)
